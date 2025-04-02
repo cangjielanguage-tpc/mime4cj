@@ -20,3 +20,9 @@ cjpm.lock
 log
 report
 tmp
+
+ci_test
+ci_lib
+unittest
+temp_ci_lib
+test_temp/

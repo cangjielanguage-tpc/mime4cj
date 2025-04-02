@@ -1,0 +1,11 @@
+[
+    {
+        "Name": "mime",
+        "License": "MIT License",
+        "License File": "LICENSE",
+        "Version Number": "v4.0.6",
+        "Owner": "broofa"
+        "Upstream URL": "https://github.com/broofa/mime",
+        "Description": "mime"
+    }
+]
