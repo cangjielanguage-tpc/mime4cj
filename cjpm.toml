@@ -14,7 +14,7 @@
   link-option = ""
   name = "mime"
   output-type = "dynamic"
-  override-compile-option = ""
+  override-compile-option = "-O2"
   src-dir = ""
   target-dir = ""
   version = "0.0.1"

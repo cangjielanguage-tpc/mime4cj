@@ -41,9 +41,9 @@ public class Mime{
     public func define(typeMap: TypeMap): Mime
     /*
      * 根据extension获取type
-     * @param ext extension
+     * @param path 包含extension信息的path
      */
-    public func getType(ext: String): ?String
+    public func getType(path: String): ?String
     /*
      * 根据type获取默认extension
      * @param typ type
