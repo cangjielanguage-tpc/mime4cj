@@ -120,17 +120,18 @@ let mime = Mime(customTypes)
 
 每个参数都会被传递给下方的 `define()` 方法。例如，`Mime(standardTypes, otherTypes)` 等同于 `Mime().define(standardTypes).define(otherTypes)`
 
-#### `MIME.define(type map [, force = false])`
+#### 定义`type->extensions`映射
 
 定义 MIME type -> extensions.
 
 尝试将类型映射到已定义的扩展名时会抛出错误，除非将 force 参数设为 true。
 
 ```cj
-MIME.define([('text/x-abc', ['abc', 'abcd'])])
+...
+mime.define(HashMap([('text/x-abc', ['abc', 'abcd'])]))
 
-MIME.getType('abcd')             // ⇨ 'text/x-abc'
-MIME.getExtension('text/x-abc')  // ⇨ 'abc'
+mime.getType('abcd')             // ⇨ 'text/x-abc'
+mime.getExtension('text/x-abc')  // ⇨ 'abc'
 ```
 
 ## 开源协议
@@ -140,3 +141,5 @@ MIME.getExtension('text/x-abc')  // ⇨ 'abc'
 ## <img alt="" src="./doc/assets/readme-icon-contribute.png" style="display: inline-block;" width=3%/> 参与贡献
 
 欢迎给我们提交PR，欢迎给我们提交Issue，欢迎参与任何形式的贡献。
+
+Contributor: [@chenyunda218](https://gitcode.com/chenyunda218)
