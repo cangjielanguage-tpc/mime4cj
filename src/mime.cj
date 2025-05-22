@@ -85,27 +85,71 @@ public class Mime {
         define(typeMap, false)
     }
 
-    static let r1 = Regex(#"^.*[/\\]"#)
-    static let r2 = Regex(#"^.*\."#)
-    /**
-     * Get mime type associated with an extension
-     */
     public func getType(path: String): ?String {
-        // Remove chars preceeding `/` or `\`
-        let last = r1.replaceSafe(path, "").toAsciiLower()
-
-        // Remove chars preceeding '.'
-        let ext = r2.replaceSafe(last, '').toAsciiLower()
-
-        let hasPath = last.size < path.size
-        let hasDot = ext.size < last.size - 1
-
-        // Extension-less file?
-        if (!hasDot && hasPath) {
+        // 如果 path 为空，直接返回 None
+        if (path.size == 0) {
             return None
         }
-
-        return this.extensionToType.get(ext)
+        // 查找最后一个斜杠或者反斜杠的位置
+        var lastSlashIndex: Int64 = -1
+        for (i in (path.size -1)..=0 : -1) {
+            let byte: Byte = path[i]
+            if (byte == b'/' || byte == b'\\') {
+                lastSlashIndex = i
+                break
+            }
+        }
+        // 提取文件名部分
+        let filename: String = if (lastSlashIndex >= 0) {
+            path[(lastSlashIndex + 1)..].toAsciiLower()
+        } else {
+            path.toAsciiLower()
+        }
+        // 如果文件名为空，返回 None
+        if (filename.size == 0) {
+            return None
+        }
+        // 处理以点开头的文件名
+        if (filename.size > 0 && filename[0] == b'.') {
+            // 如果只有一个点，则返回 None
+            if (filename.size == 1) {
+                return None
+            }
+            // 查找第二个点的位置
+            let secondDotIndex: ?Int64 = filename[1..].indexOf(".")
+            // 如果没有第二个点，视为隐藏文件，返回 None
+            if (secondDotIndex.isNone()) {
+                // 特殊情况：如果是 .txt 这样的格式，将点后面的部分作为扩展名
+                if (lastSlashIndex < 0) {  // 没有路径部分
+                    return this.extensionToType.get(filename[1..])
+                }
+                return None
+            }
+            // 如果有第二个点（如 .config.json），提取最后一个扩展名
+            let lastDotIndex: ?Int64 = filename.lastIndexOf(".")
+            if (lastDotIndex.isSome()) {
+                let extension: String = filename[(lastDotIndex.getOrThrow() + 1)..]
+                return this.extensionToType.get(extension)
+            }
+        }
+        // 处理普通文件名
+        let lastDotIndex: ?Int64 = filename.lastIndexOf(".")
+        // 如果没有点，则整个filename可能就是扩展名（无路径部分时）
+        if (lastDotIndex.isNone()) {
+            // 如果有路径部分，则可能是无扩展名的文件
+            if (lastSlashIndex >= 0) {
+                return None
+            }
+            // 否则，将整个filename作为扩展名
+            return this.extensionToType.get(filename)
+        }
+        // 如果最后一个点是文件名的最后一个字符，则没有有效的扩展名
+        if (lastDotIndex.getOrThrow() == filename.size - 1) {
+            return None
+        }
+        // 提取扩展名
+        let extension: String = filename[(lastDotIndex.getOrThrow() + 1)..]
+        return this.extensionToType.get(extension)
     }
 
     /**
