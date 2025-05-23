@@ -157,7 +157,16 @@ public class MimeTest {
                 ('.config.json', 'application/json'),
 
                 // Non-sensical
-                ('', None)
+                ('', None),
+
+                // Chinese
+                ('中文.txt', 'text/plain'),
+                ('.中文.txt', 'text/plain'),
+                ('dir/中文.txt', 'text/plain'),
+                ('dir\\中文.txt', 'text/plain'),
+                ('/path/to/中文.html', 'text/html'),
+                ('c:\\path\\to\\中文.html', 'text/html'),
+                ('仓颉', None)
             ]
         )
     }
