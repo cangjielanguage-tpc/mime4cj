@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "mime4cj",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}
