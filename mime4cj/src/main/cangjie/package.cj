@@ -6,11 +6,11 @@ package mime
 internal import std.collection.*
 internal import std.regex.*
 
-//extend Regex {
-//    func replaceSafe(input: String, replacement: String): String {
-//        if (input == "") {
-//            return ""
-//        }
-//        this.replace(input, replacement)
-//    }
-//}
+extend Regex {
+    func replaceSafe(input: String, replacement: String): String {
+        if (input == "") {
+            return ""
+        }
+        this.replace(input, replacement)
+    }
+}

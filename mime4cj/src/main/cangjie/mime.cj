@@ -33,18 +33,13 @@ public class Mime {
         for ((_typ, _extensions) in typeMap) {
             // Lowercase thingz
             var typ = _typ.toAsciiLower()
-//            var extensions = _extensions.map {ext => ext.toAsciiLower()}
-            var extensions:Array<String> = Array<String>(_extensions.size,repeat:"")
-            for(i in 0.._extensions.size){
-                extensions[i] = _extensions[i].toAsciiLower()
-            }
+            var extensions = _extensions.map {ext => ext.toAsciiLower()}
 
             let allExtensions = this.typeToExtensions.get(typ) ??
                 {
                 =>
                 let set = HashSet<String>()
                 this.typeToExtensions.add(typ, set)
-//                this.typeToExtensions.add(typ, set)
                 set
             }()
 
@@ -60,13 +55,11 @@ public class Mime {
                 }
 
                 // Add to list of extensions for the type
-//                allExtensions.add(extension)
                 allExtensions.add(extension)
 
                 if (first) {
                     // Map type to default extension (first in list)
                     this.typeToExtension.add(typ, extension)
-//                    this.typeToExtension.add(typ, extension)
                 }
                 first = false
 
@@ -82,7 +75,6 @@ public class Mime {
                         '\"${typ} -> ${extension}\" conflicts with \"${currentType} -> ${extension}\". Pass `force=true` to override this definition.'
                     )
                 }
-//                this.extensionToType.add(extension, typ)
                 this.extensionToType.add(extension, typ)
             }
         }
@@ -181,9 +173,7 @@ public class Mime {
         return this.typeToExtensions.get(typ.toAsciiLower())
     }
 
-    //
     // Private API, for internal use only.  These APIs may change at any time
-    //
     func _freeze() {
         this.freezed = true
         return this
@@ -195,11 +185,7 @@ public class Mime {
             throw IllegalStateException('define() not allowed for built-in Mime objects.')
         }
     }
-
-    // public func _getTestState() {
-    //     return (this.extensionToType, this.typeToExtension)
-    // }
 }
 
-public let MIME = Mime(standardTypes, otherTypes)._freeze()
-public let MIME_LITE = Mime(standardTypes)._freeze()
+public let MIME: Mime = Mime(standardTypes, otherTypes)._freeze()
+public let MIME_LITE: Mime = Mime(standardTypes)._freeze()
