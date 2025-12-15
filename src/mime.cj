@@ -173,9 +173,7 @@ public class Mime {
         return this.typeToExtensions.get(typ.toAsciiLower())
     }
 
-    //
     // Private API, for internal use only.  These APIs may change at any time
-    //
     func _freeze() {
         this.freezed = true
         return this
@@ -187,11 +185,7 @@ public class Mime {
             throw IllegalStateException('define() not allowed for built-in Mime objects.')
         }
     }
-
-    // public func _getTestState() {
-    //     return (this.extensionToType, this.typeToExtension)
-    // }
 }
 
-public let MIME = Mime(standardTypes, otherTypes)._freeze()
-public let MIME_LITE = Mime(standardTypes)._freeze()
+public let MIME: Mime = Mime(standardTypes, otherTypes)._freeze()
+public let MIME_LITE: Mime = Mime(standardTypes)._freeze()
